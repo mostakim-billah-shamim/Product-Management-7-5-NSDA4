@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from .forms import *
+from django.db.models import Q
 
 
 
@@ -138,7 +139,14 @@ def categorypage(request):
     else:
         form=CategoryForm()
     data=CategoryModel.objects.all()
-    count=CategoryModel.objects.all().count()
+
+    search=request.GET.get('search')
+    if search:
+        data=CategoryModel.objects.filter(
+            Q(name__icontains = search)
+        )
+
+    count=data.count()
     cont={'form': form, 'data':data, 'count':count}
     return render(request, 'pages/category.html', cont)
 
@@ -197,9 +205,27 @@ def ProductPage(request,id=None):
             return redirect('product')
     else:
         form = ProductForm(instance=data)
+
+    cdata = CategoryModel.objects.all()
     all_data = ProductModel.objects.all()
+
+    filter_data=request.GET.get('filter_data')
+    search= request.GET.get('search')
+
+    if filter_data:
+        all_data= ProductModel.objects.filter(category_id=filter_data)
+    
+    if search:
+        all_data=ProductModel.objects.filter(
+            Q(name__icontains = search)|
+            Q(description__icontains = search)|
+            Q(category__name__icontains = search)
+        )
+
+
+    
     count = all_data.count()
-    cont={'form':form, 'all_data':all_data, 'count': count, 'is_edit':True}
+    cont={'form':form, 'all_data':all_data, 'count': count, 'cdata': cdata, 'filter_data': filter_data,  'is_edit':True}
     return render(request, 'pages/product.html', cont)
 
 

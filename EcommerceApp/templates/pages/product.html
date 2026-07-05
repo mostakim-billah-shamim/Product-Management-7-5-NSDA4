@@ -30,7 +30,25 @@
     {% endif %}
 
     <div class="mt-3 row justify-content-center">
-        <h4 style="display:flex;">Available Products: {{count}} </h4> 
+        <h4 style="display:flex;">Available Products: {{count}} </h4>
+        
+        <form action="" method="get">
+            <div class="form-floating mb-3">
+                <select name="filter_data" class="btn btn-info text-center" id="floatingSelect" aria-label="Floating label select example">
+                    <option selected>Search by Category</option>
+                    
+                    {% for i in cdata %}
+                    <option value="{{ i.id}}"
+                    {% if i.id|slugify == filter_data %}selected                      
+                    {% endif %}>{{i.name|capfirst}}</option>                        
+                    {% endfor %}
+                        
+                    
+                </select>                
+                <button class="btn btn-primary" type="submit">Filter</button>
+                <a class="btn btn-danger" href="{% url 'product' %}">Clear</a>
+            </div>
+        </form>
 
         <table class="table text-center table-primary align-middle" border="1">
             <tr>
