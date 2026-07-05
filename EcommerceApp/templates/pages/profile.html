@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+
+{% block body %}
+    <div class="mt-5 row justify-content-center">
+        <h1 class="text-center text-info">Profile of {{user.username}} as {{user.user_type}} </h1>
+        
+        <div class="col-md-6 p-4 shadow-lg rounded-4 bg-secondary mt-4">
+            <div class="text-center text-white">
+                
+                {% if request.user.user_type == 'admin' and data %}
+
+                    <h4>Store Name: {{data.store_name}}</h4>
+                    <h4>Address: {{data.address}}</h4>
+                    <h4>Phone: {{data.phone}}</h4>
+                    <h5>Description: {{data.description}}</h5>
+                    <h5>Updated at: {{data.time|timesince}} ago</h5>  
+                    <a class="btn btn-primary" href="{% url 'createprofile_ad' %}">Update Profile</a>                 
+                
+
+                {% elif request.user.user_type == 'customer' and data %}
+
+                    <h4>Full Name : {{data.full_name}}</h4>
+                    <h4>Address: {{data.address}}</h4>
+                    <h4>Phone: {{data.phone}}</h4>
+                    <h5>Updated at: {{data.time|timesince}} ago</h5>
+                    <a class="btn btn-primary" href="{% url 'createprofile_cu' %}">Update Profile</a>
+
+                {% else %}
+
+                    <span class="text-white">You didn't update your profile</span>
+
+                    
+                    {% if request.user.user_type == 'admin' %}
+                    <a class="btn btn-primary" href="{% url 'createprofile_ad' %}">Update Profile</a>
+                    {% else %}
+                    <a class="btn btn-primary" href="{% url 'createprofile_cu' %}">Update Profile</a>
+                    {% endif %}
+                
+
+                    
+                
+                {% endif %}
+                
+
+                    
+                
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock body %}
+    
+    

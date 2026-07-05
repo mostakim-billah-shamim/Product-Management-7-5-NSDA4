@@ -1,0 +1,14 @@
+{% if messages %}
+<div class="d-flex justify-content-center mt-3">
+    
+    <div class="col-6 rounded-4 text-center">
+        
+        {% for i in messages %}
+        <div class="alert alert-{{ i.tags }}  alert-dismissible fade show" role="alert">
+            {{ i }}
+        </div>
+        {% endfor %}        
+
+    </div>
+</div>
+{% endif %}

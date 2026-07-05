@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}
+    
+    {% if aform %} Admin Profile
+    {% else %} Customer profile        
+    {% endif %}
+        
+{% endblock title %}
+
+
+{% block body %}
+    <div class="m-5 row justify-content-center">
+        <h1 class="text-center text-info p-2"> {% if aform %} Update Admin Profile {% else %} Update Customer profile {% endif %}</h1>
+        {% load crispy_forms_tags %}
+        <div class="col-md-6 shadow-lg rounded-4 p-3 bg-info">
+
+            <form action="" method="post">
+                {% csrf_token %}
+                
+                {% if aform %}
+                    {{aform|crispy}}
+                {% endif %}
+
+
+                
+                {% if cform %}
+                    {{cform|crispy}}
+                {% endif %}
+                    
+                    
+                
+
+                <button class="btn btn-success" type="submit">Save Profile</button>
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock body %}
+    
+    
